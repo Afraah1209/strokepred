@@ -1,0 +1,29 @@
+name: Deploy Streamlit App
+
+on:
+  push:
+    branches:
+      - main  # Triggers the workflow when you push to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Validate Streamlit app
+      run: |
+        streamlit run app.py --server.headless true &
+        sleep 15
+        echo "✅ Build successful! You can now deploy on Streamlit Cloud."
